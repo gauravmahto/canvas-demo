@@ -1,12 +1,12 @@
 import './js/gl-matrix-min.js';
 
 import { create, createReportList } from './modules/canvas.js';
-import randomSquare, { name, draw, reportArea, reportPerimeter } from './modules/square.js';
+// import randomSquare, { name, draw, reportArea, reportPerimeter } from './modules/square.js';
 import { getGlobal } from './modules/utils.js';
-import { initShaderProgram, initBuffers, drawScene } from './modules/webgl/index.js';
+import { initShaderProgram, initBuffers, drawScene, loadTexture } from './modules/webgl/index.js';
 
 let myCanvas = create('myCanvas', document.body, 480, 320, getGlobal().devicePixelRatio);
-let reportList = createReportList(myCanvas.id);
+// let reportList = createReportList(myCanvas.id);
 
 myCanvas.element.addEventListener('mouseup', (event) => {
 
@@ -24,24 +24,26 @@ myCanvas.ctx.clear(myCanvas.ctx.COLOR_BUFFER_BIT);
 
 const vsSource = `
   attribute vec4 aVertexPosition;
-  attribute vec4 aVertexColor;
+  attribute vec2 aTextureCoord;
 
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
 
-  varying lowp vec4 vColor;
+  varying highp vec2 vTextureCoord;
 
   void main() {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-    vColor = aVertexColor;
+    vTextureCoord = aTextureCoord;
   }
 `;
 
 const fsSource = `
-  varying lowp vec4 vColor;
+  varying highp vec2 vTextureCoord;
+
+  uniform sampler2D uSampler;
 
   void main(void) {
-    gl_FragColor = vColor;
+    gl_FragColor = texture2D(uSampler, vTextureCoord);
   }
 `;
 
@@ -51,15 +53,19 @@ const programInfo = {
   program: shaderProgram,
   attribLocations: {
     vertexPosition: myCanvas.ctx.getAttribLocation(shaderProgram, 'aVertexPosition'),
-    vertexColor: myCanvas.ctx.getAttribLocation(shaderProgram, 'aVertexColor')
+    textureCoord: myCanvas.ctx.getAttribLocation(shaderProgram, 'aTextureCoord')
   },
   uniformLocations: {
     projectionMatrix: myCanvas.ctx.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-    modelViewMatrix: myCanvas.ctx.getUniformLocation(shaderProgram, 'uModelViewMatrix')
+    modelViewMatrix: myCanvas.ctx.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+    uSampler: myCanvas.ctx.getUniformLocation(shaderProgram, 'uSampler')
   },
 };
 
 const buffers = initBuffers(myCanvas.ctx);
+
+// Load texture
+const texture = loadTexture(myCanvas.ctx, 'images/tux.png');
 
 var then = 0;
 
@@ -70,7 +76,7 @@ function render(now) {
   const deltaTime = (now - then);
   then = now;
 
-  drawScene(myCanvas.ctx, programInfo, buffers, deltaTime);
+  drawScene(myCanvas.ctx, programInfo, buffers, texture, deltaTime);
 
   // Re-render the updated frame.
   requestAnimationFrame(render);

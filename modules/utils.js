@@ -46,3 +46,9 @@ export function getGlobal() {
   return localGlobal;
 
 }
+
+export function isPowerOf2(value) {
+
+  return ((typeof value !== 'undefined') && (value & (value - 1)) === 0);
+
+}
