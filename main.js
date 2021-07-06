@@ -22,18 +22,24 @@ myCanvas.ctx.clear(myCanvas.ctx.COLOR_BUFFER_BIT);
 
 const vsSource = `
   attribute vec4 aVertexPosition;
+  attribute vec4 aVertexColor;
 
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
 
+  varying lowp vec4 vColor;
+
   void main() {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    vColor = aVertexColor;
   }
 `;
 
 const fsSource = `
-  void main() {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  varying lowp vec4 vColor;
+
+  void main(void) {
+    gl_FragColor = vColor;
   }
 `;
 
@@ -43,10 +49,11 @@ const programInfo = {
   program: shaderProgram,
   attribLocations: {
     vertexPosition: myCanvas.ctx.getAttribLocation(shaderProgram, 'aVertexPosition'),
+    vertexColor: myCanvas.ctx.getAttribLocation(shaderProgram, 'aVertexColor')
   },
   uniformLocations: {
     projectionMatrix: myCanvas.ctx.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-    modelViewMatrix: myCanvas.ctx.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+    modelViewMatrix: myCanvas.ctx.getUniformLocation(shaderProgram, 'uModelViewMatrix')
   },
 };
 
