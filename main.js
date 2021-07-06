@@ -59,7 +59,24 @@ const programInfo = {
 
 const buffers = initBuffers(myCanvas.ctx);
 
-drawScene(myCanvas.ctx, programInfo, buffers);
+var then = 0;
+
+// Draw the scene repeatedly
+function render(now) {
+
+  now *= 0.001;  // convert to seconds
+  const deltaTime = (now - then);
+  then = now;
+
+  drawScene(myCanvas.ctx, programInfo, buffers, deltaTime);
+
+  // Re-render the updated frame.
+  requestAnimationFrame(render);
+
+}
+
+// Render the first frame.
+requestAnimationFrame(render);
 
 //--------------------
 

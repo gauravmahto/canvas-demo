@@ -1,4 +1,7 @@
-export function drawScene(gl, programInfo, buffers) {
+let squareRotation = 0.0;
+
+export function drawScene(gl, programInfo, buffers, deltaTime) {
+
   gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -40,6 +43,11 @@ export function drawScene(gl, programInfo, buffers) {
     modelViewMatrix,     // matrix to translate
     [ -0.0, 0.0, -6.0 ]);  // amount to translate
 
+  mat4.rotate(modelViewMatrix,  // destination matrix
+    modelViewMatrix,  // matrix to rotate
+    squareRotation,   // amount to rotate in radians
+    [ 0, 0, 1 ]);       // axis to rotate around
+
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   {
@@ -71,14 +79,14 @@ export function drawScene(gl, programInfo, buffers) {
     const offset = 0;
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
     gl.vertexAttribPointer(
-        programInfo.attribLocations.vertexColor,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
+      programInfo.attribLocations.vertexColor,
+      numComponents,
+      type,
+      normalize,
+      stride,
+      offset);
     gl.enableVertexAttribArray(
-        programInfo.attribLocations.vertexColor);
+      programInfo.attribLocations.vertexColor);
   }
 
   // Tell WebGL to use our program when drawing
@@ -101,4 +109,7 @@ export function drawScene(gl, programInfo, buffers) {
     const vertexCount = 4;
     gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
   }
+
+  squareRotation += deltaTime;
+
 }
