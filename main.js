@@ -1,3 +1,5 @@
+import './js/gl-matrix-min.js';
+
 import { create, createReportList } from './modules/canvas.js';
 import randomSquare, { name, draw, reportArea, reportPerimeter } from './modules/square.js';
 import { getGlobal } from './modules/utils.js';
