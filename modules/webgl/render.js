@@ -1,4 +1,4 @@
-let squareRotation = 0.0;
+let cubeRotation = 0.0;
 
 export function drawScene(gl, programInfo, buffers, deltaTime) {
 
@@ -46,14 +46,26 @@ export function drawScene(gl, programInfo, buffers, deltaTime) {
 
   glMatrix.mat4.rotate(modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
-    squareRotation,   // amount to rotate in radians
+    cubeRotation,   // amount to rotate in radians
     [ 0, 0, 1 ]       // axis to rotate around
+  );
+
+  glMatrix.mat4.rotate(modelViewMatrix,  // destination matrix
+    modelViewMatrix,  // matrix to rotate
+    cubeRotation,   // amount to rotate in radians
+    [ 0, 1, 0 ]       // axis to rotate around
+  );
+
+  glMatrix.mat4.rotate(modelViewMatrix,  // destination matrix
+    modelViewMatrix,  // matrix to rotate
+    cubeRotation,   // amount to rotate in radians
+    [ 1, 0, 0 ]       // axis to rotate around
   );
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   {
-    const numComponents = 2;  // pull out 2 values per iteration
+    const numComponents = 3;  // pull out 3 values per iteration
     const type = gl.FLOAT;    // the data in the buffer is 32bit floats
     const normalize = false;  // don't normalize
     const stride = 0;         // how many bytes to get from one set of values to the next
@@ -91,6 +103,9 @@ export function drawScene(gl, programInfo, buffers, deltaTime) {
       programInfo.attribLocations.vertexColor);
   }
 
+  // Tell WebGL which indices to use to index the vertices
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+
   // Tell WebGL to use our program when drawing
 
   gl.useProgram(programInfo.program);
@@ -108,10 +123,11 @@ export function drawScene(gl, programInfo, buffers, deltaTime) {
 
   {
     const offset = 0;
-    const vertexCount = 4;
-    gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+    const vertexCount = 36;
+    const type = gl.UNSIGNED_SHORT;
+    gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
   }
 
-  squareRotation += deltaTime;
+  cubeRotation += deltaTime;
 
 }
