@@ -3,7 +3,8 @@ import './js/gl-matrix-min.js';
 import { create, createReportList } from './modules/canvas.js';
 // import randomSquare, { name, draw, reportArea, reportPerimeter } from './modules/square.js';
 import { getGlobal } from './modules/utils.js';
-import { initShaderProgram, initBuffers, drawScene, loadTexture } from './modules/webgl/index.js';
+import { setupVideo, copyVideo } from './modules/video.js';
+import { initShaderProgram, initBuffers, drawScene, initTexture, updateTexture } from './modules/webgl/index.js';
 
 const global = getGlobal();
 
@@ -86,7 +87,9 @@ const programInfo = {
 const buffers = initBuffers(myCanvas.ctx);
 
 // Load texture
-const texture = loadTexture(myCanvas.ctx, 'images/tux.png');
+const texture = initTexture(myCanvas.ctx);
+
+const video = setupVideo('videos/happy-baby.mp4');
 
 var then = 0;
 
@@ -96,6 +99,10 @@ function render(now) {
   now *= 0.001;  // convert to seconds
   const deltaTime = (now - then);
   then = now;
+
+  if (copyVideo) {
+    updateTexture(myCanvas.ctx, texture, video);
+  }
 
   drawScene(myCanvas.ctx, programInfo, buffers, texture, deltaTime);
 

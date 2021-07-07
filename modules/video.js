@@ -1,9 +1,9 @@
 import { getGlobal } from './utils.js';
 
 // will set to true when video can be copied to texture
-let copyVideo = false;
+export let copyVideo = false;
 
-function setupVideo(url) {
+export function setupVideo(url) {
 
   const video = getGlobal().document.createElement('video');
 
