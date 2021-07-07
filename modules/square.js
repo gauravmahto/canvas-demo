@@ -1,3 +1,6 @@
+import { getGlobal } from './utils.js';
+
+const global = getGlobal();
 const name = 'square';
 
 function draw(ctx, length, x, y, color) {
@@ -24,20 +27,20 @@ function random(min, max) {
 
 function reportArea(length, listId) {
 
-  let listItem = document.createElement('li');
+  let listItem = global.document.createElement('li');
   listItem.textContent = `${name} area is ${length * length}px squared.`
 
-  let list = document.getElementById(listId);
+  let list = global.document.getElementById(listId);
   list.appendChild(listItem);
 
 }
 
 function reportPerimeter(length, listId) {
 
-  let listItem = document.createElement('li');
+  let listItem = global.document.createElement('li');
   listItem.textContent = `${name} perimeter is ${length * 4}px.`
 
-  let list = document.getElementById(listId);
+  let list = global.document.getElementById(listId);
   list.appendChild(listItem);
 
 }

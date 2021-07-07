@@ -5,7 +5,9 @@ import { create, createReportList } from './modules/canvas.js';
 import { getGlobal } from './modules/utils.js';
 import { initShaderProgram, initBuffers, drawScene, loadTexture } from './modules/webgl/index.js';
 
-let myCanvas = create('myCanvas', document.body, 480, 320, getGlobal().devicePixelRatio);
+const global = getGlobal();
+
+let myCanvas = create('myCanvas', global.document.body, 480, 320, global.devicePixelRatio);
 // let reportList = createReportList(myCanvas.id);
 
 myCanvas.element.addEventListener('mouseup', (event) => {

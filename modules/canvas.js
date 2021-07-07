@@ -1,7 +1,11 @@
+import { getGlobal } from './utils.js';
+
+const global = getGlobal();
+
 function create(id, parent, width, height, devicePixelRatio) {
 
-  let divWrapper = document.createElement('div');
-  let canvasElem = document.createElement('canvas');
+  let divWrapper = global.document.createElement('div');
+  let canvasElem = global.document.createElement('canvas');
   parent.appendChild(divWrapper);
   divWrapper.appendChild(canvasElem);
 
@@ -25,10 +29,10 @@ function create(id, parent, width, height, devicePixelRatio) {
 
 function createReportList(wrapperId) {
 
-  let list = document.createElement('ul');
+  let list = global.document.createElement('ul');
   list.id = wrapperId + '-reporter';
 
-  let canvasWrapper = document.getElementById(wrapperId);
+  let canvasWrapper = global.document.getElementById(wrapperId);
   canvasWrapper.appendChild(list);
 
   return list.id;
