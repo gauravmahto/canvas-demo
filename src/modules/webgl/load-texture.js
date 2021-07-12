@@ -4,6 +4,7 @@ import { isPowerOf2 } from '../utils.js';
 // Initialize a texture and load an image.
 // When the image finished loading copy it into the texture.
 //
+// eslint-disable-next-line max-lines-per-function
 export function loadTexture(gl, url) {
 
   const texture = gl.createTexture();
@@ -21,17 +22,26 @@ export function loadTexture(gl, url) {
   const border = 0;
   const srcFormat = gl.RGBA;
   const srcType = gl.UNSIGNED_BYTE;
-  const pixel = new Uint8Array([ 0, 0, 255, 255 ]);  // opaque blue
-  gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+  const pixel = new Uint8Array([
+    0,
+    0,
+    255,
+    255
+  ]);  // opaque blue
+  gl.texImage2D(
+    gl.TEXTURE_2D, level, internalFormat,
     width, height, border, srcFormat, srcType,
-    pixel);
+    pixel
+  );
 
   const image = new Image();
-  image.onload = function () {
+  image.onload = function onload() {
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-      srcFormat, srcType, image);
+    gl.texImage2D(
+      gl.TEXTURE_2D, level, internalFormat,
+      srcFormat, srcType, image
+    );
 
     // WebGL1 has different requirements for power of 2 images
     // vs non power of 2 images so check if the image is a
@@ -70,11 +80,18 @@ export function initTexture(gl) {
   const border = 0;
   const srcFormat = gl.RGBA;
   const srcType = gl.UNSIGNED_BYTE;
-  const pixel = new Uint8Array([ 0, 0, 255, 255 ]);  // opaque blue
+  const pixel = new Uint8Array([
+    0,
+    0,
+    255,
+    255
+  ]);  // opaque blue
 
-  gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+  gl.texImage2D(
+    gl.TEXTURE_2D, level, internalFormat,
     width, height, border, srcFormat, srcType,
-    pixel);
+    pixel
+  );
 
   // Turn off mips and set  wrapping to clamp to edge so it
   // will work regardless of the dimensions of the video.
@@ -94,7 +111,9 @@ export function updateTexture(gl, texture, video) {
   const srcType = gl.UNSIGNED_BYTE;
 
   gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-    srcFormat, srcType, video);
+  gl.texImage2D(
+    gl.TEXTURE_2D, level, internalFormat,
+    srcFormat, srcType, video
+  );
 
 }

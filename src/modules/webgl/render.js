@@ -1,3 +1,10 @@
+/* eslint-disable array-element-newline */
+/* eslint-disable array-bracket-spacing */
+/* eslint-disable no-undef */
+/* eslint-disable max-lines-per-function */
+/* eslint-disable max-params */
+/* eslint-disable max-statements */
+
 let cubeRotation = 0.0;
 
 export function drawScene(gl, programInfo, buffers, texture, deltaTime) {
@@ -9,6 +16,7 @@ export function drawScene(gl, programInfo, buffers, texture, deltaTime) {
 
   // Clear the canvas before we start drawing on it.
 
+  // eslint-disable-next-line no-bitwise
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   // Create a perspective matrix, a special matrix that is
@@ -22,41 +30,54 @@ export function drawScene(gl, programInfo, buffers, texture, deltaTime) {
   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
   const zNear = 0.1;
   const zFar = 100.0;
+  // @ts-ignore
   const projectionMatrix = glMatrix.mat4.create();
 
   // note: glmatrix.js always has the first argument
   // as the destination to receive the result.
-  glMatrix.mat4.perspective(projectionMatrix,
+  // @ts-ignore
+  glMatrix.mat4.perspective(
+    projectionMatrix,
     fieldOfView,
     aspect,
     zNear,
-    zFar);
+    zFar
+  );
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
+  // @ts-ignore
   const modelViewMatrix = glMatrix.mat4.create();
 
   // Now move the drawing position a bit to where we want to
   // start drawing the square.
 
-  glMatrix.mat4.translate(modelViewMatrix, // destination matrix
+  // @ts-ignore
+  glMatrix.mat4.translate(
+    modelViewMatrix, // destination matrix
     modelViewMatrix,    // matrix to translate
     [ -0.0, 0.0, -6.0 ] // amount to translate
   );
 
-  glMatrix.mat4.rotate(modelViewMatrix,  // destination matrix
+  // @ts-ignore
+  glMatrix.mat4.rotate(
+    modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
     cubeRotation,   // amount to rotate in radians
     [ 0, 0, 1 ]       // axis to rotate around
   );
 
-  glMatrix.mat4.rotate(modelViewMatrix,  // destination matrix
+  // @ts-ignore
+  glMatrix.mat4.rotate(
+    modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
     cubeRotation,   // amount to rotate in radians
     [ 0, 1, 0 ]       // axis to rotate around
   );
 
-  glMatrix.mat4.rotate(modelViewMatrix,  // destination matrix
+  // @ts-ignore
+  glMatrix.mat4.rotate(
+    modelViewMatrix,  // destination matrix
     modelViewMatrix,  // matrix to rotate
     cubeRotation,   // amount to rotate in radians
     [ 1, 0, 0 ]       // axis to rotate around
@@ -78,9 +99,9 @@ export function drawScene(gl, programInfo, buffers, texture, deltaTime) {
       type,
       normalize,
       stride,
-      offset);
-    gl.enableVertexAttribArray(
-      programInfo.attribLocations.vertexPosition);
+      offset
+    );
+    gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
   }
 
   // tell webgl how to pull out the texture coordinates from buffer
@@ -110,13 +131,16 @@ export function drawScene(gl, programInfo, buffers, texture, deltaTime) {
       type,
       normalize,
       stride,
-      offset);
-    gl.enableVertexAttribArray(
-      programInfo.attribLocations.vertexNormal);
+      offset
+    );
+    gl.enableVertexAttribArray(programInfo.attribLocations.vertexNormal);
   }
 
+  // @ts-ignore
   const normalMatrix = glMatrix.mat4.create();
+  // @ts-ignore
   glMatrix.mat4.invert(normalMatrix, modelViewMatrix);
+  // @ts-ignore
   glMatrix.mat4.transpose(normalMatrix, normalMatrix);
 
   // Tell WebGL which indices to use to index the vertices
@@ -140,15 +164,18 @@ export function drawScene(gl, programInfo, buffers, texture, deltaTime) {
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.projectionMatrix,
     false,
-    projectionMatrix);
+    projectionMatrix
+  );
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.modelViewMatrix,
     false,
-    modelViewMatrix);
+    modelViewMatrix
+  );
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.normalMatrix,
     false,
-    normalMatrix);
+    normalMatrix
+  );
 
   {
     const offset = 0;

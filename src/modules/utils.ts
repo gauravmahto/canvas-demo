@@ -1,19 +1,9 @@
-// export function addEventListener(element, handler) {
+export const nullOrUndefined = (identifier: unknown): boolean => typeof identifier === 'undefined' ||
+  identifier === null;
 
-//   element.addEventListener('mouseup', handler);
+export const getGlobal = (): any => {
 
-// }
-
-export function nullOrUndefined(identifier) {
-
-  return (typeof identifier === 'undefined' ||
-    null === identifier);
-
-}
-
-export function getGlobal() {
-
-  let localGlobal;
+  let localGlobal = globalThis;
 
   if (nullOrUndefined(localGlobal) &&
     typeof globalThis !== 'undefined') {
@@ -45,10 +35,7 @@ export function getGlobal() {
 
   return localGlobal;
 
-}
+};
 
-export function isPowerOf2(value) {
-
-  return ((typeof value !== 'undefined') && (value & (value - 1)) === 0);
-
-}
+// eslint-disable-next-line no-bitwise
+export const isPowerOf2 = (value: number): boolean => typeof value !== 'undefined' && (value & value - 1) === 0;

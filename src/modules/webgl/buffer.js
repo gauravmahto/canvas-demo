@@ -1,3 +1,6 @@
+/* eslint-disable max-statements */
+/* eslint-disable array-element-newline */
+// eslint-disable-next-line max-lines-per-function
 export function initBuffers(gl) {
 
   // Create a buffer for the square's positions.
@@ -90,8 +93,10 @@ export function initBuffers(gl) {
     0.0, 1.0,
   ];
 
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
-    gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
+    gl.STATIC_DRAW
+  );
 
   const indexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -117,8 +122,10 @@ export function initBuffers(gl) {
   ];
 
   // Now send the element array to GL
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-    new Uint16Array(indices), gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ELEMENT_ARRAY_BUFFER,
+    new Uint16Array(indices), gl.STATIC_DRAW
+  );
 
   const normalBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
@@ -162,8 +169,10 @@ export function initBuffers(gl) {
     -1.0, 0.0, 0.0
   ];
 
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexNormals),
-    gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ARRAY_BUFFER, new Float32Array(vertexNormals),
+    gl.STATIC_DRAW
+  );
 
   return {
     position: positionBuffer,
