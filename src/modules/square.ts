@@ -1,4 +1,4 @@
-import { getGlobal } from './utils.js';
+import { getGlobal, logger } from './utils.js';
 
 const global = getGlobal();
 const name = 'square';
@@ -41,12 +41,21 @@ export const random = (min: number, max: number): number => {
 
 };
 
-export const reportArea = (length: number, listId: number): void => {
+export const reportArea = (length: number, listId: string): void => {
 
   const listItem = global.document.createElement('li');
   listItem.textContent = `${name} area is ${length * length}px squared.`;
 
   const list = global.document.getElementById(listId);
+
+  if (list === null) {
+
+    logger.error(`No list with id: ${listId}`);
+
+    return;
+
+  }
+
   list.appendChild(listItem);
 
 };
@@ -57,6 +66,15 @@ export const reportPerimeter = (length: number, listId: string): void => {
   listItem.textContent = `${name} perimeter is ${length * 4}px.`;
 
   const list = global.document.getElementById(listId);
+
+  if (list === null) {
+
+    logger.error(`No list with id: ${listId}`);
+
+    return;
+
+  }
+
   list.appendChild(listItem);
 
 };

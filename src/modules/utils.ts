@@ -1,7 +1,7 @@
 export const nullOrUndefined = (identifier: unknown): boolean => typeof identifier === 'undefined' ||
   identifier === null;
 
-export const getGlobal = (): any => {
+export const getGlobal = (): Window | typeof globalThis => {
 
   let localGlobal = globalThis;
 
@@ -39,3 +39,5 @@ export const getGlobal = (): any => {
 
 // eslint-disable-next-line no-bitwise
 export const isPowerOf2 = (value: number): boolean => typeof value !== 'undefined' && (value & value - 1) === 0;
+
+export const logger = console;

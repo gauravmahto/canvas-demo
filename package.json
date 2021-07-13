@@ -18,12 +18,12 @@
     "webpack-cli": "4.7.2"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "npx eslint .",
     "build-ts": "tsc",
     "watch-build-ts": "tsc -w",
     "prod": "npm run build-ts && webpack --mode production",
     "build": "npm run build-ts && webpack --mode development",
-    "watch-build": "webpack --mode development --watch",
+    "watch-build": "npx webpack --mode development --watch",
     "live": "npx concurrently --kill-others \"npm:watch-build-ts\" \"npm:watch-build\""
   },
   "repository": {

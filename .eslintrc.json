@@ -18,7 +18,7 @@
     "ignorePatterns": [
         "webpack.config.js",
         "src/js",
-        "dist"
+        "bin"
     ],
     "rules": {
         "accessor-pairs": "error",
@@ -80,7 +80,10 @@
             120
         ],
         "max-lines": "error",
-        "max-lines-per-function": "error",
+        "max-lines-per-function": [
+            "error",
+            70
+        ],
         "max-nested-callbacks": "error",
         "max-params": "error",
         "max-statements": [
@@ -140,6 +143,7 @@
         "no-octal-escape": "error",
         "no-param-reassign": "error",
         "no-plusplus": "error",
+        "newline-before-return": "error",
         "no-promise-executor-return": "error",
         "no-proto": "error",
         "no-restricted-exports": "error",
